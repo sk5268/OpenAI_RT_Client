@@ -3,6 +3,7 @@ import json
 import websocket
 import _thread as thread
 import time
+import sys
 
 # Get API key from environment variable instead of hardcoding
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
@@ -66,12 +67,29 @@ def on_open(ws):
 def on_message(ws, message):
     try:
         server_event = json.loads(message)
-        print("Received event:", json.dumps(server_event, indent=2))
+        event_type = server_event.get("type", "")
         
-        if server_event.get("type") == "response.done":
-            if "response" in server_event and "output" in server_event["response"]:
-                if len(server_event["response"]["output"]) > 0:
-                    print("Final response:", server_event["response"]["output"][0])
+        # Only print certain event types for debugging
+        if event_type == "session.created":
+            print("Session created successfully")
+        elif event_type == "conversation.item.created" and server_event.get("item", {}).get("role") == "user":
+            print("User message acknowledged by server")
+        elif event_type == "response.created":
+            print("AI is generating a response...")
+            sys.stdout.write("\nAI: ")
+            sys.stdout.flush()
+        # Handle streaming text deltas
+        elif event_type == "response.text.delta":
+            delta = server_event.get("delta", "")
+            sys.stdout.write(delta)
+            sys.stdout.flush()
+        # When response is complete
+        elif event_type == "response.done":
+            print("\n\nResponse complete.")
+            
+        # For detailed debugging, uncomment this:
+        # print(f"DEBUG: {event_type}")
+            
     except Exception as e:
         print(f"Error handling message: {e}")
 

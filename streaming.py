@@ -22,7 +22,7 @@ headers = [
 complete_response = ""
 
 def on_open(ws):
-    # print("Connected to server.")
+    print("Connected to server.")
     
     # Define function to send messages after connection is established
     def run(*args):
@@ -73,22 +73,22 @@ def on_message(ws, message):
         server_event = json.loads(message)
         event_type = server_event.get("type", "")
         
-        # # Only print certain event types for debugging
-        # if event_type == "session.created":
-        #     print("Session created successfully")
-        # elif event_type == "conversation.item.created" and server_event.get("item", {}).get("role") == "user":
-        #     print("User message acknowledged by server")
-        # elif event_type == "response.created":
-        #     print("AI is generating a response...")
-        #     complete_response = ""  # Reset the response buffer
-        # # Handle streaming text deltas - accumulate rather than display
-        # elif event_type == "response.text.delta":
-        #     delta = server_event.get("delta", "")
-        #     complete_response += delta  # Accumulate the response
-        # # When response is complete, display full response
-        # elif event_type == "response.done":
-        #     print(complete_response)
-        #     print("\nResponse complete.")
+        # Only print certain event types for debugging
+        if event_type == "session.created":
+            print("Session created successfully")
+        elif event_type == "conversation.item.created" and server_event.get("item", {}).get("role") == "user":
+            print("User message acknowledged by server")
+        elif event_type == "response.created":
+            print("AI is generating a response...")
+            complete_response = ""  # Reset the response buffer
+        # Handle streaming text deltas - accumulate rather than display
+        elif event_type == "response.text.delta":
+            delta = server_event.get("delta", "")
+            complete_response += delta  # Accumulate the response
+        # When response is complete, display full response
+        elif event_type == "response.done":
+            print("\nAI: " + complete_response)
+            print("\nResponse complete.")
             
         # For detailed debugging, uncomment this:
         # print(f"DEBUG: {event_type}")

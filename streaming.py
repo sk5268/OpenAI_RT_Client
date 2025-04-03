@@ -12,7 +12,7 @@ if not OPENAI_API_KEY:
     print("Please set it using: export OPENAI_API_KEY='your_api_key'")
     exit(1)
 
-url = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17"
+url = "wss://api.openai.com/v1/realtime?model=gpt-4o-mini-realtime-preview"
 headers = [
     "Authorization: Bearer " + OPENAI_API_KEY,
     "OpenAI-Beta: realtime=v1"

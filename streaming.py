@@ -22,7 +22,7 @@ headers = [
 complete_response = ""
 
 def on_open(ws):
-    print("Connected to server.")
+    # print("Connected to server.")
     
     # Define function to send messages after connection is established
     def run(*args):
@@ -42,7 +42,7 @@ def on_open(ws):
                 }
             }
             ws.send(json.dumps(event))
-            print("User message sent")
+            # print("User message sent")
             
             # Request response
             event = {
@@ -52,14 +52,14 @@ def on_open(ws):
                 }
             }
             ws.send(json.dumps(event))
-            print("Response requested")
+            # print("Response requested")
             
             # Keep the main thread running for a while to receive responses
             time.sleep(30)
             
             # Close connection after receiving responses
             ws.close()
-            print("Connection closed")
+            # print("Connection closed")
         except Exception as e:
             print(f"Error: {e}")
             ws.close()

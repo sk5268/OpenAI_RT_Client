@@ -75,11 +75,13 @@ def on_message(ws, message):
         
         # Only print certain event types for debugging
         if event_type == "session.created":
-            print("Session created successfully")
+            pass
+            # print("Session created successfully")
         elif event_type == "conversation.item.created" and server_event.get("item", {}).get("role") == "user":
-            print("User message acknowledged by server")
+            # print("User message acknowledged by server")
+            pass
         elif event_type == "response.created":
-            print("AI is generating a response...")
+            # print("AI is generating a response...")
             complete_response = ""  # Reset the response buffer
         # Handle streaming text deltas - accumulate rather than display
         elif event_type == "response.text.delta":
@@ -87,8 +89,8 @@ def on_message(ws, message):
             complete_response += delta  # Accumulate the response
         # When response is complete, display full response
         elif event_type == "response.done":
-            print("\nAI: " + complete_response)
-            print("\nResponse complete.")
+            print( complete_response)
+            # print("\nResponse complete.")
             
         # For detailed debugging, uncomment this:
         # print(f"DEBUG: {event_type}")
